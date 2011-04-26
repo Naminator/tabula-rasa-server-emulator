@@ -69,6 +69,11 @@
     <Compile Include="src\Network\Client\GameClient.cs" />
     <Compile Include="src\Network\Client\GameClientListener.cs" />
     <Compile Include="src\Network\Client\GameClientProcessor.cs" />
+    <Compile Include="src\Network\Client\Packets\ClientPacketProcessor.cs" />
+    <Compile Include="src\Network\Client\Packets\ReceiveBasePacket.cs" />
+    <Compile Include="src\Network\Client\Packets\Receive\R_AuthLogin.cs" />
+    <Compile Include="src\Network\Client\Packets\SendBasePacket.cs" />
+    <Compile Include="src\Network\Client\Packets\Send\S_Hello.cs" />
     <Compile Include="src\Network\Crypt\BlowfishCipher.cs" />
     <Compile Include="src\Network\Crypt\CryptEngine.cs" />
     <Compile Include="src\Network\Crypt\ScrambledKeyPair.cs" />
@@ -82,6 +87,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
