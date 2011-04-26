@@ -37,6 +37,8 @@ namespace TRLoginServer.src
 
             //Add listeners
             maxConnections = new MaxConnections();
+            GameClientProcessor.Instance.Initialize();
+
             gcl = GameClientListener.Instance;
          }
 

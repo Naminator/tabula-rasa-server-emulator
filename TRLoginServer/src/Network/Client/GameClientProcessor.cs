@@ -93,7 +93,6 @@ namespace TRLoginServer.src.Network.Client
 
         public byte[] GenerateBlowfishKey()
         {
-            //NullPointerException >.<
             return _blowFishKeys[TRRandom.Next((short)(_blowFishCount - 1))];
         }
 
