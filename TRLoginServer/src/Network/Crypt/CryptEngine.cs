@@ -26,12 +26,10 @@ namespace TRLoginServer.src.Network.Crypt
         private bool updatedKey = false;
         private byte[] key = { 0x6b, 0x60, 0xcb, 0x5b, 0x82, 0xce, 0x90, 0xb1, 0xcc, 0x2b, 0x6c, 0x55, 0x6c, 0x6c, 0x6c, 0x6c };
         private BlowfishCipher cipher;
-        private BlowfishEngine testCipher;
 
         public CryptEngine()
         {
             cipher = new BlowfishCipher(key);
-            testCipher = new BlowfishEngine();
         }
 
         public void updateKey(byte[] key)
@@ -40,10 +38,7 @@ namespace TRLoginServer.src.Network.Crypt
         }
 
         public bool Decrypt(byte[] data)
-        {
-
-            
-
+        {   
             cipher.Decrypt(data);
             return VerifyChecksum(data);
         }
