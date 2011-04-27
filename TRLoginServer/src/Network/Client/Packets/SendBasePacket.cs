@@ -30,6 +30,16 @@ namespace TRLoginServer.src.Network.Client.Packets
             WriteBytes(BitConverter.GetBytes(value));
         }
 
+        protected void WriteUInt(uint value)
+        {
+            WriteBytes(BitConverter.GetBytes(value));
+        }
+
+        protected void WriteChar(char value)
+        {
+            WriteBytes(BitConverter.GetBytes(value));
+        }
+
         protected void WriteShort(short value)
         {
             WriteBytes(BitConverter.GetBytes(value));
@@ -59,6 +69,13 @@ namespace TRLoginServer.src.Network.Client.Packets
         protected void WriteLong(long value)
         {
             WriteBytes(BitConverter.GetBytes(value));
+        }
+
+        protected void CutBytes(byte[] value, int Offset, int Length)
+        {
+            vStream = null;
+            vStream = new MemoryStream();
+            vStream.Write(value, Offset, Length);
         }
 
         public byte[] ToByteArray()

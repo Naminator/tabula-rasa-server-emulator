@@ -12,13 +12,15 @@ namespace TRLoginServer.src.Network.Client.Packets.Send
 
         }
 
+        //Handshake success thanks to Dahrkael from InfiniteRasa C++ Emulator
         protected internal override void Write()
         {
             unchecked
             {
-                WriteByte(0x00);
-                //[23:06] <Dahrkael> 0x0B 0x00 0xDEAD0EE01 0x00
-                WriteByte(0);
+                WriteShort(0x0B); //Packet length
+                WriteByte(0x00); //OPCode
+                WriteUInt(0xDEAD0E01); //Unknown 1
+                WriteInteger(0x00); //Unknown 2 / End
             }
         }
     }
