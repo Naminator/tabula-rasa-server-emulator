@@ -41,14 +41,24 @@ namespace TRLoginServer.src.Network.Client
         private void SendPacket(SendBasePacket packet)
         {
             packet.Write();
-            byte[] pck = packet.ToByteArray();
+
+            //Yes it's stupid >.< But its a quick workaround \m/o_O\m/
+            if (!(packet is TRLoginServer.src.Network.Client.Packets.Send.S_Hello))
+            {
+                byte[] pck = packet.ToByteArray();
+                pck = _loginCrypt.Encrypt(pck);
+                List<Byte> FullPacket = new List<byte>();
+                FullPacket.AddRange(BitConverter.GetBytes((short)(pck.Length + 2)));
+                FullPacket.AddRange(pck);
+                _socket.Send(FullPacket.ToArray());
+                return;
+            }
 
             _socket.Send(packet.ToByteArray());
         }
 
         private void Read()
         {
-            //For some reason it doesn't get t read the buffer :(
             _buffer = new byte[2];
             _socket.BeginReceive(_buffer, 0, 2, SocketFlags.Partial, ReadCallbackStatic, null);
         }
@@ -61,7 +71,7 @@ namespace TRLoginServer.src.Network.Client
                 {
                     _buffer = new byte[BitConverter.ToInt16(_buffer, 0) - 2];
 
-                    if (_buffer.Length > 1024)
+                    if (_buffer.Length > 120)
                     {
                         Logger.WriteLog("Possible incorrect packet from " + _socket.RemoteEndPoint.ToString(), Logger.LogType.Network);
                         Disconnect();
@@ -109,12 +119,16 @@ namespace TRLoginServer.src.Network.Client
                     //We are now decrypting the packet from the reading thread
                     if (!_loginCrypt.Decrypt(buff))
                     {
-                        Disconnect();
                         Logger.WriteLog("Wrong checsum used by the client: " + _socket.RemoteEndPoint.ToString(), Logger.LogType.Network);
+                        Disconnect();
+                        return;
                     }
 
+                    Logger.WriteLog("Sending the NO SERVERS AVAILABLE packet ", Logger.LogType.Debug);
+                    SendPacket(new S_LoginFail(this, S_LoginFail.FailReason.NO_SERVERS_AVAILABLE));
+
                     //Process the packet
-                    Console.WriteLine("All checks has been passed LOL");
+                    //Type pck = ClientPacketProcessor.ProcessPacket(buff);
                 }
             }
             catch

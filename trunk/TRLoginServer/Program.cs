@@ -40,6 +40,7 @@ namespace TRLoginServer
             Console.Title = "Tabula Rasa Auth Server";
             _handler += new ExitEventHandler(Handler);
             SetConsoleCtrlHandler(_handler, true);
+            
 
             login = new TRLoginServer.src.LoginServer();
             login.Initialize();
