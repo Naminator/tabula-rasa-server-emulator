@@ -34,11 +34,11 @@ namespace TRLoginServer.src.Network.Client
             _loginCrypt = new CryptEngine();
             _loginCrypt.updateKey(_blowFishKey);
 
-            Read();
             SendPacket(new S_Hello(this));
+            Read();
         }
 
-        private void SendPacket(SendBasePacket packet)
+        public void SendPacket(SendBasePacket packet)
         {
             packet.Write();
 
@@ -110,29 +110,32 @@ namespace TRLoginServer.src.Network.Client
                 if (_socket.EndReceive(ar) >= 1)
                 {
                     //Copy the buffer so we can receive the next packet ASAP
-                    byte[] buff = new byte[_buffer.Length];
-                    Array.Copy(_buffer, buff, _buffer.Length);
+                    /*byte[] buff = new byte[_buffer.Length];
+                    Array.Copy(_buffer, buff, _buffer.Length);*/
 
-                    //Read the next packet
-                    Read();
+                    byte[] buff = _buffer;
 
-                    //We are now decrypting the packet from the reading thread
-                    if (!_loginCrypt.Decrypt(buff))
+
+
+
+                    //Process the packet
+                    Type pck = ClientPacketProcessor.ProcessPacket(buff);
+                    if (pck != null)
                     {
-                        Logger.WriteLog("Wrong checsum used by the client: " + _socket.RemoteEndPoint.ToString(), Logger.LogType.Network);
+                        ReceiveBasePacket rbp = (ReceiveBasePacket)Activator.CreateInstance(pck, this, buff);
+                        Thread pckRun = new Thread(rbp.Run);
+                        pckRun.Start();
+                    }
+                    else
+                    {
                         Disconnect();
                         return;
                     }
-
-                    Logger.WriteLog("Sending the NO SERVERS AVAILABLE packet ", Logger.LogType.Debug);
-                    SendPacket(new S_LoginFail(this, S_LoginFail.FailReason.NO_SERVERS_AVAILABLE));
-
-                    //Process the packet
-                    //Type pck = ClientPacketProcessor.ProcessPacket(buff);
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Logger.WriteLog("Exception: " + e.Message, Logger.LogType.Error);
                 Disconnect();
                 return;
             }

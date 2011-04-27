@@ -7,6 +7,7 @@ using TRLoginServer.src.Database;
 using TRLoginServer.src.Database.Tables;
 using TRLoginServer.src.Network;
 using TRLoginServer.src.Network.Client;
+using TRLoginServer.src.Network.Client.Packets;
 
 using MySql.Data.MySqlClient;
 
@@ -36,6 +37,7 @@ namespace TRLoginServer.src
             Logger.WriteLog(string.Format("{0} Server(s) has been loaded.", ServerList.Instance.GameServerList.Count), Logger.LogType.Debug);
 
             //Add listeners
+            ClientPacketProcessor.Initialize();
             maxConnections = new MaxConnections();
             GameClientProcessor.Instance.Initialize();
 

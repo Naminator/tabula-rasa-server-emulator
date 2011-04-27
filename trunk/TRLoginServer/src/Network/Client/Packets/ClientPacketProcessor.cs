@@ -16,13 +16,28 @@ namespace TRLoginServer.src.Network.Client.Packets
         {
             packetList = new SortedList<short,PacketType>();
             Logger.WriteLog("Registering packets", Logger.LogType.Initialize);
+            RegisterPacket(new PacketType("Auth Login", 0x32, typeof(R_AuthLogin)));
         }
 
         private static void RegisterPacket(PacketType packet)
         {
-            Logger.WriteLog("Registering new packet: Opcode: " + packet.OpCode + " Name: " + packet.Name, Logger.LogType.Initialize);
+            Logger.WriteLog("Registering new packet: Opcode: " + packet.OpCode.ToString("x4") + " Name: " + packet.Name, Logger.LogType.Initialize);
             packetList.Add(packet.OpCode, packet);
         }
+
+        public static Type ProcessPacket(byte[] packet)
+        {
+            if (packetList.ContainsKey((short)packet[0]))
+            {
+                return packetList[(short)packet[0]].Packet;
+            }
+            else
+            {
+                Logger.WriteLog("Unknown incoming packet " + BitConverter.ToString(packet), Logger.LogType.Error);
+                return null;
+            }
+        }
+
 
         private class PacketType
         {
