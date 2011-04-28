@@ -1,26 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/****************************************************************************
+ |
+ | Copyright (c) 2007 Novell, Inc.
+ | All Rights Reserved.
+ |
+ | This program is free software; you can redistribute it and/or
+ | modify it under the terms of version 2 of the GNU General Public License as
+ | published by the Free Software Foundation.
+ |
+ | This program is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ | GNU General Public License for more details.
+ |
+ | You should have received a copy of the GNU General Public License
+ | along with this program; if not, contact Novell, Inc.
+ |
+ | To contact Novell about this file by physical or electronic mail,
+ | you may find current contact information at www.novell.com 
+ |
+ |  Author: Russ Young
+ |	Thanks to: Bruce Schneier / Counterpane Labs 
+ |	for the Blowfish encryption algorithm and
+ |	reference implementation. http://www.schneier.com/blowfish.html
+ |***************************************************************************/
+
+using System;
 using System.Text;
+using System.IO;
 
-using TRLoginServer.src.Utils;
-
-namespace TRLoginServer.src.Network.Crypt
+namespace Simias.Encryption
 {
-    public class BlowFish
+    /// <summary>
+    /// Class that provides blowfish encryption.
+    /// </summary>
+    public class Blowfish
     {
-        #region BlowFish Boxes
-        private static const ulong[] ORIG_P = new ulong[16 + 2]
-        {
-            0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L,
-            0xA4093822L, 0x299F31D0L, 0x082EFA98L, 0xEC4E6C89L,
-            0x452821E6L, 0x38D01377L, 0xBE5466CFL, 0x34E90C6CL,
-            0xC0AC29B7L, 0xC97C50DDL, 0x3F84D5B5L, 0xB5470917L,
-            0x9216D5D9L, 0x8979FB1BL
-        };
+        const int N = 16;
+        const int KEYBYTES = 8;
 
-        private static const ulong[,] ORIG_S = new ulong[4, 256] 
-        {
-            {   0xD1310BA6L, 0x98DFB5ACL, 0x2FFD72DBL, 0xD01ADFB7L,
+        static ulong[] _P = 
+		{
+			0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L, 0xA4093822L, 0x299F31D0L,
+            0x082EFA98L, 0xEC4E6C89L, 0x452821E6L, 0x38D01377L, 0xBE5466CFL, 0x34E90C6CL,
+            0xC0AC29B7L, 0xC97C50DDL, 0x3F84D5B5L, 0xB5470917L, 0x9216D5D9L, 0x8979FB1BL
+		};
+        static ulong[,] _S = 
+		{
+			{   0xD1310BA6L, 0x98DFB5ACL, 0x2FFD72DBL, 0xD01ADFB7L,
                 0xB8E1AFEDL, 0x6A267E96L, 0xBA7C9045L, 0xF12C7F99L,
                 0x24A19947L, 0xB3916CF7L, 0x0801F2E2L, 0x858EFC16L,
                 0x636920D8L, 0x71574E69L, 0xA458FEA3L, 0xF4933D7EL,
@@ -277,59 +303,233 @@ namespace TRLoginServer.src.Network.Crypt
                 0x90D4F869L, 0xA65CDEA0L, 0x3F09252DL, 0xC208E69FL,
                 0xB74E6132L, 0xCE77E25BL, 0x578FDFE3L, 0x3AC372E6L  }
         };
-        #endregion;
 
-        public static ulong F(ulong x)
+        ulong[] P;
+        ulong[,] S;
+
+        public static byte[] KeyFromString(string key)
+        {
+            string hex = "";
+            foreach (char c in key)
+            {
+                int temp = c;
+                hex += String.Format("{0:x2}", System.Convert.ToUInt32(temp.ToString()));
+            }
+
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
+        }
+
+        /// <summary>
+        /// Constructs and initializes a blowfish instance with the supplied key.
+        /// </summary>
+        /// <param name="key">The key to cipher with.</param>
+        public Blowfish(byte[] key)
+        {
+            ushort i;
+            ushort j;
+            ushort k;
+            ulong data;
+            ulong datal;
+            ulong datar;
+
+            P = _P.Clone() as ulong[];
+            S = _S.Clone() as ulong[,];
+
+            j = 0;
+            for (i = 0; i < N + 2; ++i)
+            {
+                data = 0x00000000;
+                for (k = 0; k < 4; ++k)
+                {
+                    data = (data << 8) | key[j];
+                    j++;
+                    if (j >= key.Length)
+                    {
+                        j = 0;
+                    }
+                }
+                P[i] = P[i] ^ data;
+            }
+
+            datal = 0x00000000;
+            datar = 0x00000000;
+
+            for (i = 0; i < N + 2; i += 2)
+            {
+                Encipher(ref datal, ref datar);
+                P[i] = datal;
+                P[i + 1] = datar;
+            }
+
+            for (i = 0; i < 4; ++i)
+            {
+                for (j = 0; j < 256; j += 2)
+                {
+                    Encipher(ref datal, ref datar);
+
+                    S[i, j] = datal;
+                    S[i, j + 1] = datar;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        private ulong F(ulong x)
         {
             ushort a, b, c, d;
             ulong y;
 
-            d = (ushort)(x & 0xFF);
+            d = (ushort)(x & 0x00FF);
             x >>= 8;
-            c = (ushort)(x & 0xFF);
+            c = (ushort)(x & 0x00FF);
             x >>= 8;
-            b = (ushort)(x & 0xFF);
+            b = (ushort)(x & 0x00FF);
             x >>= 8;
-            a = (ushort)(x & 0xFF);
-            x >>= 8;
-
-            y = ORIG_S[0,a] + ORIG_S[1,b];
-            y = y ^ ORIG_S[2, c];
-            y = y + ORIG_S[3, d];
+            a = (ushort)(x & 0x00FF);
+            //y = ((S[0][a] + S[1][b]) ^ S[2][c]) + S[3][d];
+            y = S[0, a] + S[1, b];
+            y = y ^ S[2, c];
+            y = y + S[3, d];
 
             return y;
         }
 
-        public BlowFish()
+        /// <summary>
+        /// Encrypts a byte array in place.
+        /// </summary>
+        /// <param name="data">The array to encrypt.</param>
+        /// <param name="length">The amount to encrypt.</param>
+        public void Encipher(byte[] data, int length)
         {
+            ulong xl, xr;
+            if ((length % 8) != 0)
+                throw new Exception("Invalid Length");
+            for (int i = 0; i < length; i += 8)
+            {
+                // Encode the data in 8 byte blocks.
+                xl = (ulong)((data[i] << 24) | (data[i + 1] << 16) | (data[i + 2] << 8) | data[i + 3]);
+                xr = (ulong)((data[i + 4] << 24) | (data[i + 5] << 16) | (data[i + 6] << 8) | data[i + 7]);
+                Encipher(ref xl, ref xr);
+                // Now Replace the data.
+                data[i] = (byte)(xl >> 24);
+                data[i + 1] = (byte)(xl >> 16);
+                data[i + 2] = (byte)(xl >> 8);
+                data[i + 3] = (byte)(xl);
+                data[i + 4] = (byte)(xr >> 24);
+                data[i + 5] = (byte)(xr >> 16);
+                data[i + 6] = (byte)(xr >> 8);
+                data[i + 7] = (byte)(xr);
+            }
         }
 
-        public void Decrypt(ulong x1, ulong xr)
+        /// <summary>
+        /// Encrypts 8 bytes of data (1 block)
+        /// </summary>
+        /// <param name="xl">The left part of the 8 bytes.</param>
+        /// <param name="xr">The right part of the 8 bytes.</param>
+        private void Encipher(ref ulong xl, ref ulong xr)
         {
-            ulong X1;
+            ulong Xl;
             ulong Xr;
-            ulong Temp;
+            ulong temp;
             ushort i;
 
-            X1 = x1;
+            Xl = xl;
             Xr = xr;
 
-            for (i = 17; i > 1; --i)
+            for (i = 0; i < N; ++i)
             {
-                X1 = X1 ^ ORIG_P[i];
-                Xr = F(X1) ^ Xr;
+                Xl = Xl ^ P[i];
+                Xr = F(Xl) ^ Xr;
 
-                Temp = X1;
-                X1 = Xr;
-                Xr = Temp;
+                temp = Xl;
+                Xl = Xr;
+                Xr = temp;
             }
 
-            Temp = X1;
-            X1 = Xr;
-            Xr = Temp;
+            temp = Xl;
+            Xl = Xr;
+            Xr = temp;
 
-            Xr = Xr ^ ORIG_P[1];
-            X1 = X1 ^ ORIG_P[0];
+            Xr = Xr ^ P[N];
+            Xl = Xl ^ P[N + 1];
+
+            xl = Xl;
+            xr = Xr;
+        }
+
+        /// <summary>
+        /// Decrypts a byte array in place.
+        /// </summary>
+        /// <param name="data">The array to decrypt.</param>
+        /// <param name="length">The amount to decrypt.</param>
+        public void Decipher(byte[] data, int length)
+        {
+            ulong xl, xr;
+            if ((length % 8) != 0)
+                throw new Exception("Invalid Length");
+            for (int i = 0; i < length; i += 8)
+            {
+                // Encode the data in 8 byte blocks.
+                xl = (ulong)((data[i] << 24) | (data[i + 1] << 16) | (data[i + 2] << 8) | data[i + 3]);
+                xr = (ulong)((data[i + 4] << 24) | (data[i + 5] << 16) | (data[i + 6] << 8) | data[i + 7]);
+                Decipher(ref xl, ref xr);
+                // Now Replace the data.
+                data[i] = (byte)(xl >> 24);
+                data[i + 1] = (byte)(xl >> 16);
+                data[i + 2] = (byte)(xl >> 8);
+                data[i + 3] = (byte)(xl);
+                data[i + 4] = (byte)(xr >> 24);
+                data[i + 5] = (byte)(xr >> 16);
+                data[i + 6] = (byte)(xr >> 8);
+                data[i + 7] = (byte)(xr);
+            }
+        }
+
+        /// <summary>
+        /// Decrypts 8 bytes of data (1 block)
+        /// </summary>
+        /// <param name="xl">The left part of the 8 bytes.</param>
+        /// <param name="xr">The right part of the 8 bytes.</param>
+        private void Decipher(ref ulong xl, ref ulong xr)
+        {
+            ulong Xl;
+            ulong Xr;
+            ulong temp;
+            ushort i;
+
+            Xl = xl;
+            Xr = xr;
+
+            for (i = N + 1; i > 1; --i)
+            {
+                Xl = Xl ^ P[i];
+                Xr = F(Xl) ^ Xr;
+
+                /* Exchange Xl and Xr */
+                temp = Xl;
+                Xl = Xr;
+                Xr = temp;
+            }
+
+            /* Exchange Xl and Xr */
+            temp = Xl;
+            Xl = Xr;
+            Xr = temp;
+
+            Xr = Xr ^ P[1];
+            Xl = Xl ^ P[0];
+
+            xl = Xl;
+            xr = Xr;
         }
     }
 }
