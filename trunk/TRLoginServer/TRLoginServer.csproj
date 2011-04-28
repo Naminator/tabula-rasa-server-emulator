@@ -75,7 +75,7 @@
     <Compile Include="src\Network\Client\Packets\SendBasePacket.cs" />
     <Compile Include="src\Network\Client\Packets\Send\S_Hello.cs" />
     <Compile Include="src\Network\Client\Packets\Send\S_LoginFail.cs" />
-    <Compile Include="src\Network\Crypt\BlowFish.cs" />
+    <Compile Include="Simias\Encryption\BlowFish.cs" />
     <Compile Include="src\Network\Crypt\BlowfishCipher.cs" />
     <Compile Include="src\Network\Crypt\CryptEngine.cs" />
     <Compile Include="src\Network\Crypt\ScrambledKeyPair.cs" />

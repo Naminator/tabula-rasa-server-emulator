@@ -5,11 +5,13 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.IO;
 
 using TRLoginServer.src.Network.Crypt;
 using TRLoginServer.src.Utils;
 using TRLoginServer.src.Network.Client.Packets;
 using TRLoginServer.src.Network.Client.Packets.Send;
+using Simias.Encryption;
 
 namespace TRLoginServer.src.Network.Client
 {
@@ -46,7 +48,16 @@ namespace TRLoginServer.src.Network.Client
             if (!(packet is TRLoginServer.src.Network.Client.Packets.Send.S_Hello))
             {
                 byte[] pck = packet.ToByteArray();
-                pck = _loginCrypt.Encrypt(pck);
+                //pck = _loginCrypt.Encrypt(pck);
+
+                byte[] bfKey = Blowfish.KeyFromString(@"[;'.]94-31==-%&@");
+                Blowfish bf;
+                bf = new Blowfish(bfKey);
+
+
+                Console.WriteLine(pck.Length);
+                bf.Encipher(pck, pck.Length);
+
                 List<Byte> FullPacket = new List<byte>();
                 FullPacket.AddRange(BitConverter.GetBytes((short)(pck.Length + 2)));
                 FullPacket.AddRange(pck);
@@ -71,7 +82,7 @@ namespace TRLoginServer.src.Network.Client
                 {
                     _buffer = new byte[BitConverter.ToInt16(_buffer, 0) - 2];
 
-                    if (_buffer.Length > 120)
+                    if (_buffer.Length > 128)
                     {
                         Logger.WriteLog("Possible incorrect packet from " + _socket.RemoteEndPoint.ToString(), Logger.LogType.Network);
                         Disconnect();
@@ -110,12 +121,24 @@ namespace TRLoginServer.src.Network.Client
                 if (_socket.EndReceive(ar) >= 1)
                 {
                     //Copy the buffer so we can receive the next packet ASAP
-                    /*byte[] buff = new byte[_buffer.Length];
-                    Array.Copy(_buffer, buff, _buffer.Length);*/
+                    byte[] buff = new byte[_buffer.Length];
+                    Array.Copy(_buffer, buff, _buffer.Length);
 
-                    byte[] buff = _buffer;
+                    //Read();
 
+                    byte[] bfKey = Blowfish.KeyFromString(@"[;'.]94-31==-%&@");
+                    Blowfish bf;
+                    bf = new Blowfish(bfKey);
 
+                    bf.Decipher(buff, buff.Length);
+                    //Encrypt the same packet in order to check if it is succesfull
+
+                    //Send Login fail for check
+                    SendPacket(new S_LoginFail(this, S_LoginFail.FailReason.INVALID_PASSWORD_2));
+                    return;
+
+                    //Disconnect();
+                    //return;
 
 
                     //Process the packet
