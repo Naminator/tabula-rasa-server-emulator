@@ -23,12 +23,29 @@ namespace TRLoginServer.src.Network.Crypt
 {
     public class CryptEngine
     {
-        private bool updatedKey = false;
-        private byte[] key = { 0x6b, 0x60, 0xcb, 0x5b, 0x82, 0xce, 0x90, 0xb1, 0xcc, 0x2b, 0x6c, 0x55, 0x6c, 0x6c, 0x6c, 0x6c };
+        private bool updatedKey = true;
+        private byte[] key;
         private BlowfishCipher cipher;
 
         public CryptEngine()
         {
+            string realKey = @"[;'.]94-31==-%&@";
+            string hex = "";
+            foreach (char c in realKey)
+            {
+                int temp = c;
+                hex += String.Format("{0:x2}", System.Convert.ToUInt32(temp.ToString()));
+            }
+
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+
+            updateKey(bytes);
+
             cipher = new BlowfishCipher(key);
         }
 
@@ -37,31 +54,17 @@ namespace TRLoginServer.src.Network.Crypt
             this.key = key;
         }
 
-        public bool Decrypt(byte[] data)
+        public void Decrypt(byte[] data)
         {   
             cipher.Decrypt(data);
-            return VerifyChecksum(data);
         }
 
         public byte[] Encrypt(byte[] data)
         {
             Array.Resize(ref data, data.Length + 4);
-
-            if (!updatedKey)
-            {
-                Array.Resize(ref data, data.Length + 4);
-                Array.Resize(ref data, (data.Length + 8) - data.Length % 8);
-                EncXORPass(data, (uint)TRRandom.Next());
-                cipher.Encrypt(data);
-                cipher.Key = key;
-                updatedKey = true;
-            }
-            else
-            {
-                Array.Resize(ref data, (data.Length + 8) - data.Length % 8);
-                AppendChecksum(data);
-                cipher.Encrypt(data);
-            }
+            Array.Resize(ref data, (data.Length + 8) - data.Length % 8);
+            cipher.Encrypt(data);
+            
             return data;
         }
 
