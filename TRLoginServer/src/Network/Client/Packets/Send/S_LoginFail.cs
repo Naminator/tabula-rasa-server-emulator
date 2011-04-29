@@ -27,10 +27,12 @@ namespace TRLoginServer.src.Network.Client.Packets.Send
 
         protected internal override void Write()
         {
-            WriteInteger(0x07);
-            WriteShort(0xFF);
-            WriteInteger(0x02);
-            WriteUInt((uint)_reason);
+            WriteShort(0x07);
+            WriteByte(0x02);
+            //WriteInteger((int)_reason);
+            WriteInteger(0x03);
+
+            //WriteInteger(0x00);
         }
     }
 }

@@ -11,7 +11,6 @@ using TRLoginServer.src.Network.Crypt;
 using TRLoginServer.src.Utils;
 using TRLoginServer.src.Network.Client.Packets;
 using TRLoginServer.src.Network.Client.Packets.Send;
-using Simias.Encryption;
 
 namespace TRLoginServer.src.Network.Client
 {
@@ -48,15 +47,9 @@ namespace TRLoginServer.src.Network.Client
             if (!(packet is TRLoginServer.src.Network.Client.Packets.Send.S_Hello))
             {
                 byte[] pck = packet.ToByteArray();
-                //pck = _loginCrypt.Encrypt(pck);
+                pck = _loginCrypt.Encrypt(pck);
 
-                byte[] bfKey = Blowfish.KeyFromString(@"[;'.]94-31==-%&@");
-                Blowfish bf;
-                bf = new Blowfish(bfKey);
-
-
-                Console.WriteLine(pck.Length);
-                bf.Encipher(pck, pck.Length);
+                Console.Write("Im encrypting yes");
 
                 List<Byte> FullPacket = new List<byte>();
                 FullPacket.AddRange(BitConverter.GetBytes((short)(pck.Length + 2)));
@@ -126,19 +119,14 @@ namespace TRLoginServer.src.Network.Client
 
                     //Read();
 
-                    byte[] bfKey = Blowfish.KeyFromString(@"[;'.]94-31==-%&@");
-                    Blowfish bf;
-                    bf = new Blowfish(bfKey);
-
-                    bf.Decipher(buff, buff.Length);
-                    //Encrypt the same packet in order to check if it is succesfull
+                    //Doesn't yet works :/
+                    _loginCrypt.Decrypt(buff);
 
                     //Send Login fail for check
                     SendPacket(new S_LoginFail(this, S_LoginFail.FailReason.INVALID_PASSWORD_2));
-                    return;
 
-                    //Disconnect();
-                    //return;
+                    Disconnect();
+                    return;
 
 
                     //Process the packet
