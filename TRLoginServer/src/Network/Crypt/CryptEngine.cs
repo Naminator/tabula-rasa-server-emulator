@@ -68,6 +68,15 @@ namespace TRLoginServer.src.Network.Crypt
             return data;
         }
 
+        public byte[] EncryptDbg(byte[] data)
+        {
+            Array.Resize(ref data, data.Length + 4);
+            Array.Resize(ref data, (data.Length + 8) - data.Length % 8);
+            cipher.EncryptDbg(data, 0, data.Length);
+
+            return data;
+        }
+
         private bool VerifyChecksum(byte[] Data)
         {
             long chksum = 0;

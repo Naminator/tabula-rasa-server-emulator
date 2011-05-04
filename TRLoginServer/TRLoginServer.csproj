@@ -79,6 +79,7 @@
     <Compile Include="src\Network\Crypt\CryptEngine.cs" />
     <Compile Include="src\Network\Crypt\ScrambledKeyPair.cs" />
     <Compile Include="src\Network\Gameserver\GameServer.cs" />
+    <Compile Include="src\Network\TRCrypt\CryptWrapper.cs" />
     <Compile Include="src\Utils\ConfigFile.cs" />
     <Compile Include="src\Utils\Logger\Logger.cs" />
     <Compile Include="src\Utils\TRRandom.cs" />
@@ -90,7 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\BFdata.txt" />
+    <Content Include="src\serverIDs.txt" />
+    <Content Include="TRCrypt.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
