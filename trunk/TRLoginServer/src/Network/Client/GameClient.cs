@@ -11,6 +11,7 @@ using TRLoginServer.src.Network.Crypt;
 using TRLoginServer.src.Utils;
 using TRLoginServer.src.Network.Client.Packets;
 using TRLoginServer.src.Network.Client.Packets.Send;
+using TRLoginServer.src.Network.TRCrypt;
 
 namespace TRLoginServer.src.Network.Client
 {
@@ -47,9 +48,8 @@ namespace TRLoginServer.src.Network.Client
             if (!(packet is TRLoginServer.src.Network.Client.Packets.Send.S_Hello))
             {
                 byte[] pck = packet.ToByteArray();
-                pck = _loginCrypt.Encrypt(pck);
-
-                Console.Write("Im encrypting yes");
+                //pck = _loginCrypt.Encrypt(pck);
+                pck = _loginCrypt.EncryptDbg(pck);
 
                 List<Byte> FullPacket = new List<byte>();
                 FullPacket.AddRange(BitConverter.GetBytes((short)(pck.Length + 2)));
@@ -119,8 +119,15 @@ namespace TRLoginServer.src.Network.Client
 
                     //Read();
 
-                    //Doesn't yet works :/
-                    _loginCrypt.Decrypt(buff);
+                    CryptWrapper CW = new CryptWrapper();
+                    for (int i = 0; i < ( buff.Length / 8 ); i++)
+                    {
+                        CW.BFDecrypt((uint)buff[i * 8], (uint)buff[i * 8 + 4]);
+
+                        string byteData = System.Text.Encoding.Unicode.GetString(buff);
+                        Console.WriteLine(byteData);
+
+                    }
 
                     //Send Login fail for check
                     SendPacket(new S_LoginFail(this, S_LoginFail.FailReason.INVALID_PASSWORD_2));

@@ -341,6 +341,7 @@ namespace TRLoginServer.src.Network.Crypt
             }
 
             this.Key = key;
+
         }
 
         /// <summary>
@@ -443,6 +444,11 @@ namespace TRLoginServer.src.Network.Crypt
                 Array.Copy(BitConverter.GetBytes(xl), 0, data, p, 4);
                 Array.Copy(BitConverter.GetBytes(xr), 0, data, p + 4, 4);
             }
+        }
+
+        public void EncryptDbg(byte[] data, int offset, int length)
+        {
+            this.Encrypt(data, offset, length);
         }
 
         /// <summary>
