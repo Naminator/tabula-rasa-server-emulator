@@ -69,7 +69,7 @@ namespace TRE.DataAccess.Common
         public static string GetConnectionString()
         {
             //get {
-                const string CNSTR = "SERVER={0};DATABASE={1},UID={2};PASSWORD={3};";
+                const string CNSTR = "SERVER={0};DATABASE={1};UID={2};PASSWORD={3};";
 
                 return String.Format(CNSTR,
                     Config.DatabaseHost,
