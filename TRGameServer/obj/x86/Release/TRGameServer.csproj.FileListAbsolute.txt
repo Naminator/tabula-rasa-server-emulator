@@ -1,5 +1,0 @@
-D:\Dev\Tabula Rasa\trunk\TRGameServer\bin\Release\TRGameServer.exe
-D:\Dev\Tabula Rasa\trunk\TRGameServer\bin\Release\TRGameServer.pdb
-D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Release\ResolveAssemblyReference.cache
-D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Release\TRGameServer.exe
-D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Release\TRGameServer.pdb
