@@ -37,12 +37,14 @@ namespace TRE.AuthenticationService.Network.Crypt
 
         public void BFDecrypt(byte[] encryptedData, out byte[] decryptedData)
         {
-            
+            // to be filled
+            encryptedData = null;  decryptedData = null;
         }
 
         public void BFEncrypt(byte[] rawData, byte[] encryptedData)
         {
-            
+            // to be filled
+            rawData = null; encryptedData = null;
         }
 
         public void TREncrypt(byte[] data)
