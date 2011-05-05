@@ -44,7 +44,7 @@ namespace TRE.AuthenticationService.Network.Client
 
         public static void Initialize()
         {
-            _instance._packets = new SortedList<short, PacketType>();
+            Instance._packets = new SortedList<short, PacketType>();
             Logger.WriteLog("Registering packets", Logger.LogType.Initialize);
 
             _instance.RegisterPacket(new PacketType()
