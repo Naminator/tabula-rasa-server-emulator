@@ -1,0 +1,1 @@
+U:\dev\tr-emulator\TRDataAccess\obj\Release\ResolveAssemblyReference.cache
