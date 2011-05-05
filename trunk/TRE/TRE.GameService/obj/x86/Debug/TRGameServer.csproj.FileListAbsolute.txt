@@ -1,0 +1,7 @@
+D:\Dev\Tabula Rasa\trunk\TRGameServer\bin\Debug\TRGameServer.exe
+D:\Dev\Tabula Rasa\trunk\TRGameServer\bin\Debug\TRGameServer.pdb
+D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Debug\TRGameServer.exe
+D:\Dev\Tabula Rasa\trunk\TRGameServer\obj\x86\Debug\TRGameServer.pdb
+U:\dev\tr-emulator\TRGameServer\obj\x86\Debug\TRGameServer.exe
+U:\dev\tr-emulator\TRGameServer\obj\x86\Debug\TRGameServer.pdb

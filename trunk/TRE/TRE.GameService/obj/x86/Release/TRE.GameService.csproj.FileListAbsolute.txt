@@ -1,0 +1,13 @@
+U:\dev\tr-emulator\TRGameServer\bin\Release\TREGameService.exe
+U:\dev\tr-emulator\TRGameServer\bin\Release\TREGameService.pdb
+U:\dev\tr-emulator\TRGameServer\obj\x86\Release\ResolveAssemblyReference.cache
+U:\dev\tr-emulator\TRGameServer\obj\x86\Release\TREGameService.exe
+U:\dev\tr-emulator\TRGameServer\obj\x86\Release\TREGameService.pdb
+U:\dev\tr-emulator\TRE.GameService\bin\Release\TREGameService.exe
+U:\dev\tr-emulator\TRE.GameService\bin\Release\TREGameService.pdb
+U:\dev\tr-emulator\TRE.GameService\obj\x86\Release\ResolveAssemblyReference.cache
+U:\dev\tr-emulator\TRE.GameService\obj\x86\Release\TREGameService.exe
+U:\dev\tr-emulator\TRE.GameService\obj\x86\Release\TREGameService.pdb
+U:\dev\tr-emulator\TRE.GameService\bin\Release\TRE.DataAccess.dll
+U:\dev\tr-emulator\TRE.GameService\bin\Release\MySql.Data.dll
+U:\dev\tr-emulator\TRE.GameService\bin\Release\TRE.DataAccess.pdb

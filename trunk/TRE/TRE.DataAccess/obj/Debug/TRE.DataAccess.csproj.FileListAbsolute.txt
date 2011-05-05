@@ -1,0 +1,7 @@
+U:\dev\tr-emulator\TRE.DataAccess\bin\Debug\TRE.DataAccess.dll
+U:\dev\tr-emulator\TRE.DataAccess\bin\Debug\TRE.DataAccess.pdb
+U:\dev\tr-emulator\TRE.DataAccess\bin\Debug\mysql.data.dll
+U:\dev\tr-emulator\TRE.DataAccess\bin\Debug\mysql.data.entity.dll
+U:\dev\tr-emulator\TRE.DataAccess\obj\Debug\ResolveAssemblyReference.cache
+U:\dev\tr-emulator\TRE.DataAccess\obj\Debug\TRE.DataAccess.dll
+U:\dev\tr-emulator\TRE.DataAccess\obj\Debug\TRE.DataAccess.pdb
