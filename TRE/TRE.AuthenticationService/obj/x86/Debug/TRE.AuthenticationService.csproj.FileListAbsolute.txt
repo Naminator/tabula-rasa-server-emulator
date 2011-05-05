@@ -1,9 +1,0 @@
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\TRE.AuthenticationService.exe.config
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\TRE.AuthenticationService.exe
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\TRE.AuthenticationService.pdb
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\TRE.DataAccess.dll
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\MySql.Data.dll
-U:\dev\tr-emulator\TRE.AuthenticationService\bin\Debug\TRE.DataAccess.pdb
-U:\dev\tr-emulator\TRE.AuthenticationService\obj\x86\Debug\ResolveAssemblyReference.cache
-U:\dev\tr-emulator\TRE.AuthenticationService\obj\x86\Debug\TRE.AuthenticationService.exe
-U:\dev\tr-emulator\TRE.AuthenticationService\obj\x86\Debug\TRE.AuthenticationService.pdb
