@@ -1,8 +1,0 @@
-U:\dev\tr-emulator\TRE.GameService\bin\Debug\TREGameService.exe
-U:\dev\tr-emulator\TRE.GameService\bin\Debug\TREGameService.pdb
-U:\dev\tr-emulator\TRE.GameService\bin\Debug\TRE.DataAccess.dll
-U:\dev\tr-emulator\TRE.GameService\bin\Debug\MySql.Data.dll
-U:\dev\tr-emulator\TRE.GameService\bin\Debug\TRE.DataAccess.pdb
-U:\dev\tr-emulator\TRE.GameService\obj\x86\Debug\ResolveAssemblyReference.cache
-U:\dev\tr-emulator\TRE.GameService\obj\x86\Debug\TREGameService.exe
-U:\dev\tr-emulator\TRE.GameService\obj\x86\Debug\TREGameService.pdb
