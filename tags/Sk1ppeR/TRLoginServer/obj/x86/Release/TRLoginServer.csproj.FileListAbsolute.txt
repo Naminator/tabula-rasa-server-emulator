@@ -1,0 +1,8 @@
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\obj\x86\Release\ResolveAssemblyReference.cache
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\bin\Release\TRLoginServer.exe
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\bin\Release\TRLoginServer.pdb
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\bin\Release\mysql.data.dll
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\bin\Release\mysql.data.entity.dll
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\bin\Release\Org.BouncyCastle.dll
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\obj\x86\Release\TRLoginServer.exe
+D:\Dev\Tabula Rasa\trunk\TRLoginServer\obj\x86\Release\TRLoginServer.pdb
