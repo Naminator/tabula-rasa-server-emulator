@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
 namespace TRE.AuthenticationService.Network.Crypt
 {
-    class TREncryptor {
+    public class TREncryptor {
 
         [DllImport("TRCrypt.dll", EntryPoint = "StartCrypt", CallingConvention = CallingConvention.Cdecl)]
         private static extern void StartCrypt();
@@ -14,7 +13,7 @@ namespace TRE.AuthenticationService.Network.Crypt
         [DllImport("TRCrypt.dll", EntryPoint = "StartCrypt", CallingConvention = CallingConvention.Cdecl)]
         private static extern void BFDecrypt(out System.UInt32 xl, out System.UInt32 xr);
 
-        [DllImport("TRCrypt.dll", EntryPoint = "StartCrypt", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TRCrypt.dll", EntryPoint = "BFEncrypt", CallingConvention = CallingConvention.Cdecl)]
         private static extern void BFEncrypt(out System.UInt32 xl, out System.UInt32 xr);
 
         [DllImport("TRCrypt.dll", EntryPoint = "StartCrypt", CallingConvention = CallingConvention.Cdecl)]
@@ -25,7 +24,8 @@ namespace TRE.AuthenticationService.Network.Crypt
 
         public static TREncryptor Instance = null;
 
-        public TREncryptor Init () {
+        //@todo Proper Singleton implementation
+        public static TREncryptor Init () {
             if (Instance == null) Instance = new TREncryptor();
             return Instance;
         }
@@ -47,6 +47,56 @@ namespace TRE.AuthenticationService.Network.Crypt
             rawData = null; encryptedData = null;
         }
 
+        public void Encrypt(ref byte[] data)
+        {
+            int totalLen = data.Length;
+            byte[] SendBuffer = new byte[1024];
+            Array.Copy(data, SendBuffer, data.Length);
+
+            //Aligning to 8 bytes
+            totalLen = totalLen + ((8 - ((totalLen - 2) % 8)) % 8);
+
+            //Generate checsum
+            uint checkSum = 0;
+            for(int i=0; i<(totalLen-2)/4; i++)
+            {
+                checkSum ^= (uint)SendBuffer[i * 4 + 2];
+            }
+
+            SendBuffer[totalLen] = (byte)checkSum;
+            SendBuffer[totalLen + 4] = 0;
+
+            totalLen += 8;
+
+            byte[] tmpBlock = new byte[totalLen];
+
+            Buffer.BlockCopy(SendBuffer, 0, tmpBlock, 0, totalLen);
+            data = tmpBlock;
+
+            UInt32 leftBytes;
+            UInt32 rightBytes;
+
+            //Encrypt the packet
+            for (int i = 0; i < (totalLen - 2) / 8; i++)
+            {
+                leftBytes = BitConverter.ToUInt32(data, 2 + i * 8);
+                rightBytes = BitConverter.ToUInt32(data, 2 + i * 8 + 4);
+
+                BFEncrypt(out leftBytes, out rightBytes);
+
+                byte[] bytes1 = BitConverter.GetBytes(leftBytes);
+                byte[] bytes2 = BitConverter.GetBytes(rightBytes);
+
+                Array.Copy(bytes1, 0, data, 2 + i * 8, bytes1.Length);
+                Array.Copy(bytes2, 0, data, 2 + i * 8 + 4, bytes2.Length);
+            }
+        }
+
+        public void Decrypt(out UInt32 xl, out UInt32 xr)
+        {
+            BFDecrypt(out xl, out xr);
+        }
+
         public void TREncrypt(byte[] data)
         {
             
@@ -56,36 +106,5 @@ namespace TRE.AuthenticationService.Network.Crypt
         {
 
         }
-
-        /*
-         * static void Main(string[] args)
-        {
-            // Init cryptography arrays
-            StartCrypt();
-            // get the packet somewhere
-            byte[] packet = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
-            // our two unsigned longs
-            System.UInt32 index1;
-            System.UInt32 index2;
-            // packet size
-            int size = 0x32;
-            // lets loop!
-            for (int i = 0; i < (size - 2) / 8; i++)
-            {
-                // get the unsigned long from the bytes
-                index1 = BitConverter.ToUInt32(packet, 2 + i * 8);
-                index2 = BitConverter.ToUInt32(packet, 2 + i * 8 + 4);
-                // decrypt the pointers
-                BFDecrypt(out index1, out index2);
-                // turn the unsigned longs into bytes
-                byte[] bytes1 = BitConverter.GetBytes(index1);
-                byte[] bytes2 = BitConverter.GetBytes(index2);
-                // replace the bytes already decrypted
-                Array.Copy(bytes1, 0, packet, 2 + i * 8, bytes1.Length);
-                Array.Copy(bytes2, 0, packet, 2 + i * 8 + 4, bytes2.Length);
-            }
-        }
-         */
-
     }
 }
