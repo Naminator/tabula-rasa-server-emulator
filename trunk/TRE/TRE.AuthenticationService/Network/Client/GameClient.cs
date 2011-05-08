@@ -37,29 +37,33 @@ namespace TRE.AuthenticationService.Network.Client
             //_loginCrypt.updateKey(_blowFishKey);
 
             this.SendPacket(new HelloPacket(this));
-
             this.Read();
         }
 
         public void SendPacket(OutboundPacket packet)
         {
+            //Constructs the packet
             packet.Write();
-
-            //Yes it's stupid >.< But its a quick workaround \m/o_O\m/
 
             // encrypt every outgoing packet except the hello packet
             if (!(packet is TRE.AuthenticationService.Network.Client.Packets.Outbound.HelloPacket))
             {
                 byte[] encryptedData = packet.ToByteArray(); // not yet encrypted
-                encryptedData = CryptEngine.GetInstance().Encrypt(encryptedData);
-                //encryptedData = _loginCrypt.Encrypt(encryptedData); // exit encrypted
 
-                Console.Write("Im encrypting yes");
+                Console.WriteLine(BitConverter.ToString(encryptedData));
 
-                List<Byte> fullData = new List<byte>();
+                //encryptedData = CryptEngine.GetInstance().Encrypt(encryptedData);
+                //TREncryptor.Instance.Encrypt(ref encryptedData);
+                TREncryptor.Init().Encrypt(ref encryptedData);
+
+                Console.WriteLine(BitConverter.ToString(encryptedData));
+
+                /*List<Byte> fullData = new List<byte>();
                 fullData.AddRange(BitConverter.GetBytes((short)(encryptedData.Length + 2)));
                 fullData.AddRange(encryptedData);
-                _socket.Send(fullData.ToArray());
+                _socket.Send(fullData.ToArray());*/
+
+                _socket.Send(encryptedData);
 
                 return;
             }
@@ -121,16 +125,16 @@ namespace TRE.AuthenticationService.Network.Client
 
                     //Doesn't yet works :/
                     //_loginCrypt.Decrypt(buff);
-                    CryptEngine.GetInstance().Decrypt(data);
+                    //CryptEngine.GetInstance().Decrypt(data);
 
                     //Send Login fail for check
                     SendPacket(new LoginFailPacket(this, LoginFailPacket.FailReason.INVALID_PASSWORD_2));
 
                     this.Disconnect();
-                    return; // ??
+                    return; // Cutting the function because i haven't figured the encryption this is for tests only
 
                     //Process the packet
-                    Type pck = ClientPacketProcessor.ProcessPacket(data);
+                    /*Type pck = ClientPacketProcessor.ProcessPacket(data);
                     if (pck != null)
                     {
                         InboundPacket rbp = (InboundPacket) Activator.CreateInstance(pck, this, data);
@@ -141,7 +145,7 @@ namespace TRE.AuthenticationService.Network.Client
                     {
                         this. Disconnect();
                         return;
-                    }
+                    }*/
                 }
             }
             catch (Exception e)

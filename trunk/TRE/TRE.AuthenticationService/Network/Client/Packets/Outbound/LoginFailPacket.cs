@@ -30,9 +30,7 @@ namespace TRE.AuthenticationService.Network.Client.Packets.Outbound
             this.WriteShort(0x07);
             this.WriteByte(0x02);
             //this.WriteInteger((int)_reason);
-            this.WriteInteger(0x03);
-
-            //this.WriteInteger(0x00);
+            this.WriteUInt((uint)_reason);
         }
     }
 }

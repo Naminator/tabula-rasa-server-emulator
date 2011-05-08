@@ -65,8 +65,30 @@ namespace TRE.AuthenticationService.Network.Crypt
         }
 
         public void Decrypt(byte[] data)
-        {   
-            //cipher.Decrypt(data);
+        {
+            // our two unsigned longs
+            System.UInt32 index1;
+            System.UInt32 index2;
+            // packet size
+            int size = data.Length;
+            // lets loop!
+            for (int i = 0; i < size / 8; i++)
+            {
+                // get the unsigned long from the bytes
+                index1 = BitConverter.ToUInt32(data, i * 8);
+                index2 = BitConverter.ToUInt32(data, i * 8 + 4);
+                // decrypt the pointers
+                //BFDecrypt(out index1, out index2);
+
+                TREncryptor.Instance.Decrypt(out index1, out index2);
+
+                // turn the unsigned longs into bytes
+                byte[] bytes1 = BitConverter.GetBytes(index1);
+                byte[] bytes2 = BitConverter.GetBytes(index2);
+                // replace the bytes already decrypted
+                Array.Copy(bytes1, 0, data, 2 + i * 8, bytes1.Length);
+                Array.Copy(bytes2, 0, data, 2 + i * 8 + 4, bytes2.Length);
+            }
             
         }
 
@@ -75,7 +97,24 @@ namespace TRE.AuthenticationService.Network.Crypt
             //Array.Resize(ref data, data.Length + 4);
             //Array.Resize(ref data, (data.Length + 8) - data.Length % 8);
             //cipher.Encrypt(data);
-            
+
+            /*UInt32 leftValue;
+            UInt32 rightValue;
+
+            for (int i = 0; i < (data.Length - 2) / 8; i++)
+            {
+                leftValue = BitConverter.ToUInt32(data, 2 + i * 8);
+                rightValue = BitConverter.ToUInt32(data, 2 + i * 8 + 4);
+
+                TREncryptor.Instance.Encrypt(out leftValue, out rightValue);
+
+                byte[] leftBytes = BitConverter.GetBytes(leftValue);
+                byte[] rightBytes = BitConverter.GetBytes(rightValue);
+
+                Array.Copy(leftBytes, 0, data, 2 + i * 8, leftBytes.Length);
+                Array.Copy(rightBytes, 0, data, 2 + i * 8 + 4, rightBytes.Length);
+            }*/
+
             return data;
         }
 
