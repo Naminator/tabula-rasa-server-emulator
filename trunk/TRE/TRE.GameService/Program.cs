@@ -30,7 +30,11 @@ namespace TRE.GameService
                 Thread.Sleep(5000); // retry every 5 sec
             };
 
+            // Initialize game data by reading TXT files in /gameData
+            // TODO: move this to the DB
             GameData.Load();
+
+
         }
     }
 }
