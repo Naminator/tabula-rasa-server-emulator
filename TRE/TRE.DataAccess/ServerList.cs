@@ -11,6 +11,7 @@ using TRE.DataAccess.Entities;
 
 namespace TRE.DataAccess
 {
+    // this class will be obsolete when replaced by myBATIS
     public class ServerList
     {
         static ServerList instance = null;

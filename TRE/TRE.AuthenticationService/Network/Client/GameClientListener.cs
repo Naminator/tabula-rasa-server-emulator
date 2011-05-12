@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 
 using TRE.DataAccess.Common;
-using TRE.DataAccess.Entities;
+//using TRE.DataAccess.Entities;
 
 namespace TRE.AuthenticationService.Network.Client
 {

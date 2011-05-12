@@ -8,6 +8,7 @@ using TRE.DataAccess.Common;
 
 namespace TRE.DataAccess
 {
+    // This class will be obsolete when replaced by myBATIS
     public class DatabaseFactory
     {
         static DatabaseFactory _instance = null;
