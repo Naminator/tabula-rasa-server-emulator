@@ -53,7 +53,7 @@ namespace TRE.AuthenticationService.Network.Crypt
             }
 
             updateKey(bytes);
-
+            
 
             //cipher = new BlowfishCipher(key);
             

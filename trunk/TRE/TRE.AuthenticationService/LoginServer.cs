@@ -4,7 +4,7 @@ using System.Text;
 
 using TRE.DataAccess;
 using TRE.DataAccess.Common;
-using TRE.DataAccess.Entities;
+//using TRE.DataAccess.Entities;
 
 using TRE.AuthenticationService.Network;
 using TRE.AuthenticationService.Network.Client;
@@ -29,11 +29,11 @@ namespace TRE.AuthenticationService
             // automatically loaded by .net
 
             //Create database connection pools
-            DatabaseFactory.Instance.Initialize();
+            //DatabaseFactory.Instance.Initialize();
 
             //Preload serverlist
-            ServerList.Instance.Initialize();
-            Logger.WriteLog(string.Format("{0} Server(s) has been loaded.", ServerList.Instance.GameServerList.Count), Logger.LogType.Debug);
+            //ServerList.Instance.Initialize();
+            //Logger.WriteLog(string.Format("{0} Server(s) has been loaded.", ServerList.Instance.GameServerList.Count), Logger.LogType.Debug);
 
             //Add listeners
             ClientPacketProcessor.Initialize();

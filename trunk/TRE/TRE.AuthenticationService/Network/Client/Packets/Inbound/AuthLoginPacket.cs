@@ -43,12 +43,12 @@ namespace TRE.AuthenticationService.Network.Client.Packets.Inbound
 
         public override void Run()
         {
-            if (ServerList.Instance.GameServerList.Count == 0)
-            {
-                this.GameClient.SendPacket(new LoginFailPacket(this.GameClient, LoginFailPacket.FailReason.NO_SERVERS_AVAILABLE));
-            }
+            //if (ServerList.Instance.GameServerList.Count == 0)
+            //{
+            //    this.GameClient.SendPacket(new LoginFailPacket(this.GameClient, LoginFailPacket.FailReason.NO_SERVERS_AVAILABLE));
+            //}
 
-            Logger.WriteLog(buffer.ToString(), Logger.LogType.Debug);
+            //Logger.WriteLog(buffer.ToString(), Logger.LogType.Debug);
         }
     }
 }

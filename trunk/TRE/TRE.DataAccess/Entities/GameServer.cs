@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using System.Net;
 
 namespace TRE.DataAccess.Entities
@@ -11,14 +12,12 @@ namespace TRE.DataAccess.Entities
         
     //}
 
+    [DataContract(Name="game_servers")]
     public class GameServerInfo
     {
+
+        [DataMember(Name = "server_id", Order = 0, IsRequired = false)]
         public byte ServerID { get; set; }
-        public IPAddress ServerAddr { get; set; }
-        public short ServerPort { get; set; }
-        public short OnlineUsers { get; set; }
-        public string ServerName { get; set; }
-        public DateTime DateCreated { get; set; }
-        public bool DeveloperOnly;
+       
     }
 }

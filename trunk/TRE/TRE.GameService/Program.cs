@@ -16,14 +16,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
-namespace TRLoginServer
+namespace TRE.GameService
 {
+
     class Program
     {
         static void Main(string[] args)
         {
+            while (!AuthServerUtil.AuthServerUtil_Register())
+            {
+                Thread.Sleep(5000); // retry every 5 sec
+            };
 
+            GameData.Load();
         }
     }
 }
