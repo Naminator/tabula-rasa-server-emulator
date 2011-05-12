@@ -64,12 +64,14 @@
     <Compile Include="Common\Logger.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAOs\NPCDAO.cs" />
+    <Compile Include="Entities\Character.cs" />
+    <Compile Include="Entities\Mission.cs" />
+    <Compile Include="Entities\NPC.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAOs\" />
-    <Folder Include="Entities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

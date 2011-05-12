@@ -1,0 +1,2 @@
+#(contextId, 'mapName', version, baseRegionId)
+(1985, 'adv_bootcamp', 792, 2) #starter Bootcamp
