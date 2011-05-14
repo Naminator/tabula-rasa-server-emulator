@@ -5,12 +5,12 @@ using System.Text;
 
 namespace TRE.DataAccess.Entities
 {
-    struct CharacterMissionData {
+    public struct CharacterMissionData {
 	    public int missionId;
         public int missionState;
     }
 
-    class Mission
+    public class MissionData
     {
         public int missionId { get; set; }
         public int dispenserNPC { get; set; }

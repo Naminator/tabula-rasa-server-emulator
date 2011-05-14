@@ -11,15 +11,22 @@ namespace TRE.DataAccess.DAOs
 {
     public class NPCDAO
     {
-        //public static IList<NPC> getNPCList(long mapContextId) {
-        //    ISqlMapper mapper = Mapper.Instance();
-        //    return mapper.QueryForList<NPC>("getNPCList", mapContextId);
-        //}
+        public static IList<NpcData> getNPCList(long mapContextId)
+        {
+            ISqlMapper mapper = Mapper.Instance();
+            return mapper.QueryForList<NpcData>("getNPCList", mapContextId);
+        }
 
         public static int getLastNPCEntityId()
         {
             ISqlMapper mapper = Mapper.Instance();
             return (int) mapper.QueryForMap("getLastNPCEntityId",null, "mapContextId")["mapContextId"];
+        }
+
+        public static void updateNpc(NpcData npc)
+        {
+            //ISqlMapper mapper = Mapper.Instance();
+            //mapper.Insert("InsertCharacter", npc);
         }
     }
 }

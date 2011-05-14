@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace TRE.DataAccess.Entities
 {
     [DataContract]
-    public class NPC : CharacterBase
+    public class NpcData : CharacterDataBase
     {
         public int mapContextId { get; set; }
         public long entityClassID { get; set; }

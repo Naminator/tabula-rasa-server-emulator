@@ -1,0 +1,83 @@
+﻿<sqlMap namespace="Alerting" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+
+  <alias>
+    <typeAlias alias="NPC" type="TRE.DataAccess.Entities.NPC, TRE.DataAccess" />
+    <typeAlias alias="Character" type="TRE.DataAccess.Entities.Character, TRE.DataAccess" />
+    <typeAlias alias="Mission" type="TRE.DataAccess.Entities.Mission, TRE.DataAccess" />
+  </alias>
+
+  <!--<cacheModels>
+    <cacheModel id="productCache" implementation="LRU">
+      <flushInterval hours="24"/>
+      <property name="CacheSize" value="1000" />
+    </cacheModel>
+  </cacheModels>-->
+
+  <resultMaps>
+
+    <!--<resultMap id="NPCResult" class="NPC">
+      <result property="Id" column="Product_Id"/>
+      <result property="Description" column="Product_Description"/>
+    </resultMap>-->
+
+    <resultMap id="NPCId" class="NPC">
+      <result property="id" column="id"/>
+    </resultMap>
+    
+  </resultMaps>
+
+  <statements>
+
+    <select id="getNPCList" parameterMap="getNPCListParams"  resultClass="NPC">
+      SELECT
+        id,name,entityClassId,
+        mapContextId,posX,posY,posZ,rotation,
+        ad1_classId,ad1_hue,
+        ad2_classId,ad2_hue,
+        ad3_classId,ad3_hue,
+        ad4_classId,ad4_hue,
+        ad5_classId,ad5_hue,
+        ad6_classId,ad6_hue,
+        ad7_classId,ad7_hue,
+        ad8_classId,ad8_hue,
+        ad9_classId,ad9_hue,
+        ad10_classId,ad10_hue,
+        ad11_classId,ad11_hue,
+        ad12_classId,ad12_hue,
+        ad13_classId,ad13_hue,
+        ad14_classId,ad14_hue,
+        ad15_classId,ad15_hue,
+        ad16_classId,ad16_hue,
+        ad17_classId,ad17_hue,
+        ad18_classId,ad18_hue,
+        ad19_classId,ad19_hue,
+        ad20_classId,ad20_hue,
+        ad21_classId,ad21_hue
+      FROM npc WHERE mapContextId=?
+    </select>
+
+    <select id="getLastNPCEntityId" resultMap="NPCId">
+      SELECT max(id) FROM npc
+    </select>
+
+    <select id="getCharacter" parameterMap="getCharacterParams"  resultClass="Character">
+      SELECT * FROM Character WHERE userId=? AND slotID=?
+    </select>
+    
+  </statements>
+
+  <parameterMaps>
+
+    <parameterMap id="getNPCListParams" class="NPC">
+      <parameter property="mapContextId"/>
+    </parameterMap>
+
+    <parameterMap id="getCharacterParams" class="Character">
+      <parameter property="userId" />
+      <parameter property="slotIndex" />
+    </parameterMap>
+    
+  </parameterMaps>
+
+</sqlMap>
