@@ -2,7 +2,9 @@
 
 
   <alias>
-    <typeAlias alias="NPC" type="TRE.DataAccess.Entities.NPC, TRE.DataAccess" />
+    <typeAlias alias="NPC" type="TRE.DataAccess.Entities.NPCData, TRE.DataAccess" />
+    <typeAlias alias="Character" type="TRE.DataAccess.Entities.CharacterData, TRE.DataAccess" />
+    <typeAlias alias="Mission" type="TRE.DataAccess.Entities.MissionData, TRE.DataAccess" />
   </alias>
 
   <!--<cacheModels>
@@ -58,6 +60,21 @@
     <select id="getLastNPCEntityId" resultMap="NPCId">
       SELECT max(id) FROM npc
     </select>
+
+    <select id="getCharacter" parameterMap="getCharacterParams"  resultClass="Character">
+      SELECT * FROM Character WHERE userId=? AND slotID=?
+    </select>
+
+    <insert id="InsertCharacter" parameterMap="insertCharacterParams">
+      <selectKey property="id" type="post" resultClass="int">
+        select @@IDENTITY as value
+      </selectKey>
+      <generate table="characters" />
+    </insert>
+
+    <select id="getMissionList" resultClass="Mission" >
+      SELECT missionId,dispenserNPC,collectorNPC FROM mission
+    </select>
   </statements>
 
   <parameterMaps>
@@ -66,6 +83,65 @@
       <parameter property="mapContextId"/>
     </parameterMap>
 
+    <parameterMap id="getCharacterParams" class="Character">
+      <parameter property="userId" />
+      <parameter property="slotIndex" />
+    </parameterMap>
+
+    <parameterMap id="insertCharacterParams" class="Character">
+
+      <parameter property="id"  column="id" />
+      <parameter property="name"  column="name" />
+      <!--<parameter property="entityClassId"  column="entityClassId" />
+      <parameter property="mapContextId"  column="mapContextId" />
+      <parameter property="posX"  column="posX" />
+      <parameter property="posY"  column="posY" />
+      <parameter property="posZ"  column="posZ" />
+      <parameter property="rotation"  column="rotation" />-->
+      <!--<parameter property="ad1_classId
+      <parameter property="ad1_hue
+      
+      <parameter property="ad2_classId
+      <parameter property="ad2_hue
+      <parameter property="ad3_classId
+      <parameter property="ad3_hue
+      <parameter property="ad4_classId
+      <parameter property="ad4_hue
+      <parameter property="ad5_classId
+      <parameter property="ad5_hue
+      <parameter property="ad6_classId
+      <parameter property="ad6_hue
+      <parameter property="ad7_classId
+      <parameter property="ad7_hue
+      <parameter property="ad8_classId
+      <parameter property="ad8_hue
+      <parameter property="ad9_classId
+      <parameter property="ad9_hue
+      <parameter property="ad10_classId
+      <parameter property="ad10_hue
+      <parameter property="ad11_classId
+      <parameter property="ad11_hue
+      <parameter property="ad12_classId
+      <parameter property="ad12_hue
+      <parameter property="ad13_classId
+      <parameter property="ad13_hue
+      <parameter property="ad14_classId
+      <parameter property="ad14_hue
+      <parameter property="ad15_classId
+      <parameter property="ad15_hue
+      <parameter property="ad16_classId
+      <parameter property="ad16_hue
+      <parameter property="ad17_classId
+      <parameter property="ad17_hue
+      <parameter property="ad18_classId
+      <parameter property="ad18_hue
+      <parameter property="ad19_classId
+      <parameter property="ad19_hue
+      <parameter property="ad20_classId
+      <parameter property="ad20_hue
+      <parameter property="ad21_classId
+      <parameter property="ad21_hue-->
+      </parameterMap>
   </parameterMaps>
 
 </sqlMap>

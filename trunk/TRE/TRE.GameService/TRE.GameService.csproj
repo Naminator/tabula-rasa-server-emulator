@@ -34,7 +34,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>TRE.GameService.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\TRE.DataAccess\lib\Ibatis.DataMapper.1.6.2.bin\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\TRE.DataAccess\lib\Ibatis.DataMapper.1.6.2.bin\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,17 +53,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor.cs" />
-    <Compile Include="AuthServerUtil.cs" />
-    <Compile Include="CellMgr.cs" />
-    <Compile Include="Communicator.cs" />
-    <Compile Include="Creature.cs" />
-    <Compile Include="EntityMgr.cs" />
-    <Compile Include="GameData.cs" />
-    <Compile Include="MapChannel.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GameMain\MapInstance\DynamicObjects\DynamicObject.cs" />
+    <Compile Include="GameMain\MapInstance\GameMain.cs" />
+    <Compile Include="GameMain\MapInstance\Actor\Actor.cs" />
+    <Compile Include="Main\AuthServerUtil\AuthServerUtil.cs" />
+    <Compile Include="GameMain\MapInstance\CellMgr\CellMgr.cs" />
+    <Compile Include="GameMain\MapInstance\Communicator\Communicator.cs" />
+    <Compile Include="GameMain\GameData\Constants.cs" />
+    <Compile Include="GameMain\MapInstance\CombatMgr\CombatMgr.cs" />
+    <Compile Include="GameMain\MapInstance\Creature\Creature.cs" />
+    <Compile Include="GameMain\MapInstance\EntityMgr\EntityMgr.cs" />
+    <Compile Include="GameMain\GameData\GameData.cs" />
+    <Compile Include="GameMain\GameData\MethodIDs.cs" />
+    <Compile Include="GameMain\Help\Packing\Packing.cs" />
+    <Compile Include="GameMain\MapInstance\Actor\GameEffect.cs" />
+    <Compile Include="GameMain\MapInstance\BehaviorController\BehaviorController.cs" />
+    <Compile Include="GameMain\MapInstance\Inventory\Inventory.cs" />
+    <Compile Include="GameMain\MapInstance\Manifestation\Manifestation.cs" />
+    <Compile Include="GameMain\MapInstance\Message\Msg.cs" />
+    <Compile Include="GameMain\MapInstance\Mission\Mission.cs" />
+    <Compile Include="GameMain\MapInstance\Npc\Npc.cs" />
+    <Compile Include="GameMain\MapInstance\MapChannel.cs" />
+    <Compile Include="GameMain\Help\NetMgr %28Packet%29\NetMgr.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning.cs" />
+    <Compile Include="GameMain\MapInstance\Creature\SpawnSystem\SpawnSystem.cs" />
+    <Compile Include="Types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -64,18 +89,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="gameData\equipableClassEquipmentSlot.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="gameData\itemTemplates.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="gameData\mapInfo.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="gameData\starterItemTemplateClassIds.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="gameData\equipableClassEquipmentSlot.txt" />
+    <Content Include="gameData\itemTemplates.txt" />
+    <Content Include="gameData\mapInfo.txt" />
+    <Content Include="gameData\starterItemTemplateClassIds.txt" />
     <Content Include="SqlMap.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -85,6 +102,10 @@
       <Project>{E3AA8B8F-8933-4BED-87C1-4B897E7C5B9C}</Project>
       <Name>TRE.DataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataInterface\" />
+    <Folder Include="GameMain\Global\TabulaCrypt2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
