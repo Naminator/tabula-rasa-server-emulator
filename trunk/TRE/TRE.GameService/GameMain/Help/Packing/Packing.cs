@@ -35,7 +35,7 @@ namespace TRE.GameService
 
     internal struct pyUnmarshalString
     {
-        internal string buffer;
+        internal string buffer; // or IntPtr (was unsigned char) 
         internal int idx;
         internal int len;
         internal bool unpackErrorEncountered;

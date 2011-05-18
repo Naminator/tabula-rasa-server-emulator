@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameMain\Help\Packing\UnpackObjects.cs" />
     <Compile Include="GameMain\MapInstance\DynamicObjects\DynamicObject.cs" />
     <Compile Include="GameMain\MapInstance\GameMain.cs" />
     <Compile Include="GameMain\MapInstance\Actor\Actor.cs" />
