@@ -17,10 +17,10 @@ namespace TRE.DataAccess.DAOs
             return mapper.QueryForList<NpcData>("getNPCList", mapContextId);
         }
 
-        public static int getLastNPCEntityId()
+        public static ulong getLastNPCEntityId()
         {
             ISqlMapper mapper = Mapper.Instance();
-            return (int) mapper.QueryForMap("getLastNPCEntityId",null, "mapContextId")["mapContextId"];
+            return (ulong)mapper.QueryForMap("getLastNPCEntityId", null, "mapContextId")["mapContextId"];
         }
 
         public static void updateNpc(NpcData npc)

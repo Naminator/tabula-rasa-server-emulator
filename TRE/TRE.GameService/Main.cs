@@ -23,6 +23,7 @@ namespace TRE.GameService
 
     class Program
     {
+
         static void Main(string[] args)
         {
             while (!AuthServerUtil.AuthServerUtil_Register())
@@ -34,6 +35,7 @@ namespace TRE.GameService
             // TODO: move this to the DB
             GameData.Load();
 
+            EntityMgr.Instance.init();
 
         }
     }
