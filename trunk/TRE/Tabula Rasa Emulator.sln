@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRE.DataAccess", "TRE.DataA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRE.GameService", "TRE.GameService\TRE.GameService.csproj", "{5A27E082-BAA4-4A7E-AB9F-F95A09BAF874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D40D8EAE-51BE-4818-B0A2-DF2F6C0F9360}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JHLIBTests", "Tests\JHLIBTests.csproj", "{D40D8EAE-51BE-4818-B0A2-DF2F6C0F9360}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

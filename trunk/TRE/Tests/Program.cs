@@ -5,23 +5,26 @@ using System.Text;
 
 using System.Runtime.InteropServices;
 
-namespace Tests
+using JHLIB;
+
+namespace JHLIBTests
 {
+
     class Program
     {
-        [DllImport(@"lib\JHLIB.dll", SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        static extern int Add(int a, int b);
-
-        //[DllImport(@"lib\JHLIB.dll", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-        //static extern int Add2(int a, int b);
-
+        
         static void Main(string[] args)
         {
-            DALTests.Run();
+            //DALTests.Run();
 
-            Console.WriteLine(Add(1, 2));
+            Console.WriteLine(string.Format("Test JHLIB.AccountCrypter : {0}",
+                JHLIB.AccountCrypter.Test() ? "passed" : "failed"
+                ));
 
-            //Console.WriteLine(Add2(1, 2));
+            Console.WriteLine(string.Format("Test JHLIB.Blowfish : {0}",
+                JHLIB.Blowfish.Test() ? "passed" : "failed"
+                ));
+
 
             Console.ReadKey();
         }
