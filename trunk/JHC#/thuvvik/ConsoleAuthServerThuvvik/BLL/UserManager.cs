@@ -18,9 +18,9 @@ namespace ConsoleAuthServerThuvvik.BLL
                                                 , pIp.GetSetting("Database", "user")
                                                 , pIp.GetSetting("Database", "password"));
 
-            DataTable dt = msm.queryMultipleRows("SELECT * FROM sessions");
+            //DataTable dt = msm.queryMultipleRows("SELECT * FROM sessions");
 
-            int i = dt.Rows.Count;
+            //int i = dt.Rows.Count;
         }
     }
 }
