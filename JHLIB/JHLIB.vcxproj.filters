@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\AuthenticationServer">
+      <UniqueIdentifier>{588eac8b-82d2-429d-a6cf-f8b6b47a6bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameServer">
+      <UniqueIdentifier>{c9b73b0f-0951-49df-b93a-b39892539b82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -27,8 +33,17 @@
     <ClInclude Include="JHLIB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\TabulaRasaSrv\TabulaGameServer\trunk\src\TabulaCrypt.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="MD5.h">
+      <Filter>Source Files\AuthenticationServer</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerMgr.h">
+      <Filter>Source Files\AuthenticationServer</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountCrypter.h">
+      <Filter>Source Files\AuthenticationServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Blowfish.h">
+      <Filter>Source Files\AuthenticationServer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,11 +56,17 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\TabulaRasaSrv\TabulaGameServer\trunk\src\TabulaCrypt2.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AccountCrypter.cpp">
+      <Filter>Source Files\AuthenticationServer</Filter>
     </ClCompile>
-    <ClCompile Include="..\TabulaRasaSrv\TabulaGameServer\trunk\src\MD5.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Blowfish.cpp">
+      <Filter>Source Files\AuthenticationServer</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5.cpp">
+      <Filter>Source Files\AuthenticationServer</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerMgr.cpp">
+      <Filter>Source Files\AuthenticationServer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
